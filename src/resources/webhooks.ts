@@ -21,11 +21,11 @@ export class WebhooksResource {
   }
 
   async create(options: WebhookCreateOptions): Promise<Webhook> {
-    return this.http.post<Webhook>('/api/v1/webhooks/', options as unknown as Record<string, unknown>);
+    return this.http.post<Webhook>('/api/v1/webhooks/', options);
   }
 
   async update(id: string, options: WebhookUpdateOptions): Promise<Webhook> {
-    return this.http.put<Webhook>(`/api/v1/webhooks/${validateId(id)}`, options as unknown as Record<string, unknown>);
+    return this.http.put<Webhook>(`/api/v1/webhooks/${validateId(id)}`, options);
   }
 
   async delete(id: string): Promise<void> {
@@ -35,14 +35,15 @@ export class WebhooksResource {
   async deliveries(id: string, params?: { page?: number; per_page?: number }): Promise<PaginatedResponse<WebhookDelivery>> {
     return this.http.get<PaginatedResponse<WebhookDelivery>>(
       `/api/v1/webhooks/${validateId(id)}/deliveries`,
-      params as Record<string, unknown>,
+      params as Record<string, string | number | boolean | null | undefined>,
     );
   }
 
   async *deliveriesAll(id: string): AsyncGenerator<WebhookDelivery> {
     const safeId = validateId(id);
     yield* paginate<WebhookDelivery>(
-      (p) => this.http.get<PaginatedResponse<WebhookDelivery>>(`/api/v1/webhooks/${safeId}/deliveries`, p),
+      this.http,
+      `/api/v1/webhooks/${safeId}/deliveries`,
     );
   }
 

@@ -24,11 +24,11 @@ export class FoldersResource {
   }
 
   async create(options: FolderCreateOptions): Promise<Folder> {
-    return this.http.post<Folder>('/api/v1/folders', options as unknown as Record<string, unknown>);
+    return this.http.post<Folder>('/api/v1/folders', options);
   }
 
   async update(id: string, options: FolderUpdateOptions): Promise<Folder> {
-    return this.http.patch<Folder>(`/api/v1/folders/${validateId(id)}`, options as unknown as Record<string, unknown>);
+    return this.http.patch<Folder>(`/api/v1/folders/${validateId(id)}`, options);
   }
 
   async delete(id: string): Promise<void> {
@@ -36,6 +36,6 @@ export class FoldersResource {
   }
 
   async moveFiles(options: MoveFilesOptions): Promise<{ moved: number }> {
-    return this.http.post<{ moved: number }>('/api/v1/folders/move-files', options as unknown as Record<string, unknown>);
+    return this.http.post<{ moved: number }>('/api/v1/folders/move-files', options);
   }
 }

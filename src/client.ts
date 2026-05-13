@@ -42,7 +42,9 @@ export class AudioClient {
   constructor(options: AudioClientOptions) {
     const { apiKey, baseUrl = DEFAULT_BASE_URL, timeoutMs, retries, fetch: fetchImpl } = options;
 
-    const httpOptions: HttpClientOptions = { apiKey, baseUrl, timeoutMs, retries };
+    const httpOptions: HttpClientOptions = { apiKey, baseUrl };
+    if (timeoutMs !== undefined) httpOptions.timeoutMs = timeoutMs;
+    if (retries !== undefined) httpOptions.retries = retries;
     if (fetchImpl) httpOptions.fetch = fetchImpl;
 
     this._http = new HttpClient(httpOptions);

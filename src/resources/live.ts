@@ -17,12 +17,13 @@ export class LiveResource {
   constructor(private readonly http: HttpClient) {}
 
   async listSessions(params?: { page?: number; per_page?: number }): Promise<PaginatedResponse<LiveSession>> {
-    return this.http.get<PaginatedResponse<LiveSession>>('/api/v1/live/sessions', params as Record<string, unknown>);
+    return this.http.get<PaginatedResponse<LiveSession>>('/api/v1/live/sessions', params as Record<string, string | number | boolean | null | undefined>);
   }
 
   async *listSessionsAll(): AsyncGenerator<LiveSession> {
     yield* paginate<LiveSession>(
-      (p) => this.http.get<PaginatedResponse<LiveSession>>('/api/v1/live/sessions', p),
+      this.http,
+      '/api/v1/live/sessions',
     );
   }
 
@@ -31,11 +32,11 @@ export class LiveResource {
   }
 
   async createSession(options?: LiveSessionCreateOptions): Promise<LiveSession> {
-    return this.http.post<LiveSession>('/api/v1/live/sessions', (options ?? {}) as Record<string, unknown>);
+    return this.http.post<LiveSession>('/api/v1/live/sessions', options ?? {});
   }
 
   async updateSession(id: string, options: LiveSessionUpdateOptions): Promise<LiveSession> {
-    return this.http.patch<LiveSession>(`/api/v1/live/sessions/${validateId(id)}`, options as unknown as Record<string, unknown>);
+    return this.http.patch<LiveSession>(`/api/v1/live/sessions/${validateId(id)}`, options);
   }
 
   async startSession(id: string): Promise<LiveSession> {
@@ -59,7 +60,7 @@ export class LiveResource {
   }
 
   async updateNowPlaying(id: string, update: NowPlayingUpdate): Promise<void> {
-    return this.http.patch(`/api/v1/live/sessions/${validateId(id)}/now-playing`, update as unknown as Record<string, unknown>);
+    return this.http.patch(`/api/v1/live/sessions/${validateId(id)}/now-playing`, update);
   }
 
   async clearNowPlaying(id: string): Promise<void> {
@@ -70,8 +71,8 @@ export class LiveResource {
     return this.http.get<LiveSource[]>(`/api/v1/live/sessions/${validateId(sessionId)}/sources`);
   }
 
-  async addSource(sessionId: string, options: LiveSourceCreateOptions): Promise<LiveSource> {
-    return this.http.post<LiveSource>(`/api/v1/live/sessions/${validateId(sessionId)}/sources`, options as unknown as Record<string, unknown>);
+  async createSource(sessionId: string, options: LiveSourceCreateOptions): Promise<LiveSource> {
+    return this.http.post<LiveSource>(`/api/v1/live/sessions/${validateId(sessionId)}/sources`, options);
   }
 
   async listParticipants(sessionId: string): Promise<LiveParticipant[]> {

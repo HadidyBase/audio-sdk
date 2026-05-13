@@ -12,9 +12,9 @@ export type ErrorCode =
 export interface HadidyErrorOptions {
   message: string;
   code: ErrorCode;
-  status?: number;
-  requestId?: string;
-  details?: Record<string, unknown>;
+  status?: number | undefined;
+  requestId?: string | undefined;
+  details?: Record<string, unknown> | undefined;
 }
 
 export class HadidyError extends Error {

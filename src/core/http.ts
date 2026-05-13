@@ -15,14 +15,14 @@ import {
 import { validateApiKey } from './validation.js';
 
 export interface RequestOptions {
-  method?: string;
+  method?: string | undefined;
   path: string;
-  query?: Record<string, string | number | boolean | undefined | null>;
+  query?: Record<string, string | number | boolean | undefined | null> | undefined;
   body?: unknown;
-  formData?: FormData;
-  headers?: Record<string, string>;
-  signal?: AbortSignal;
-  retries?: number;
+  formData?: FormData | undefined;
+  headers?: Record<string, string> | undefined;
+  signal?: AbortSignal | undefined;
+  retries?: number | undefined;
 }
 
 export interface HttpClientOptions {

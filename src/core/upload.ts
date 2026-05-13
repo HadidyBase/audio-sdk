@@ -6,8 +6,8 @@ export type UploadSource =
   | ReadableStream<Uint8Array>;
 
 export interface UploadOptions {
-  filename?: string;
-  contentType?: string;
+  filename?: string | undefined;
+  contentType?: string | undefined;
 }
 
 export function buildUploadFormData(

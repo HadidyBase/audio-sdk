@@ -13,12 +13,14 @@ export class PresetsResource {
   constructor(private readonly http: HttpClient) {}
 
   async list(params?: PresetListParams): Promise<PaginatedResponse<Preset>> {
-    return this.http.get<PaginatedResponse<Preset>>('/api/v1/presets/', params as Record<string, unknown>);
+    return this.http.get<PaginatedResponse<Preset>>('/api/v1/presets/', params as Record<string, string | number | boolean | null | undefined>);
   }
 
   async *listAll(params?: Omit<PresetListParams, 'page'>): AsyncGenerator<Preset> {
     yield* paginate<Preset>(
-      (p) => this.http.get<PaginatedResponse<Preset>>('/api/v1/presets/', { ...params, ...p }),
+      this.http,
+      '/api/v1/presets/',
+      params as Record<string, string | number | boolean | null | undefined>
     );
   }
 
@@ -27,11 +29,11 @@ export class PresetsResource {
   }
 
   async create(options: PresetCreateOptions): Promise<Preset> {
-    return this.http.post<Preset>('/api/v1/presets/', options as unknown as Record<string, unknown>);
+    return this.http.post<Preset>('/api/v1/presets/', options);
   }
 
   async update(id: string, options: PresetUpdateOptions): Promise<Preset> {
-    return this.http.put<Preset>(`/api/v1/presets/${validateId(id)}`, options as unknown as Record<string, unknown>);
+    return this.http.put<Preset>(`/api/v1/presets/${validateId(id)}`, options);
   }
 
   async delete(id: string): Promise<void> {

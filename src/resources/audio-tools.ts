@@ -30,7 +30,7 @@ export class AudioToolsResource {
   }
 
   async updateMetadata(id: string, metadata: AudioMetadataUpdateOptions): Promise<AudioMetadata> {
-    return this.http.put<AudioMetadata>(`/api/v1/audio/${validateId(id)}/metadata`, metadata as unknown as Record<string, unknown>);
+    return this.http.put<AudioMetadata>(`/api/v1/audio/${validateId(id)}/metadata`, metadata);
   }
 
   coverArtUrl(id: string, baseUrl: string): string {
@@ -38,6 +38,6 @@ export class AudioToolsResource {
   }
 
   async concat(options: ConcatOptions): Promise<{ job_id: string }> {
-    return this.http.post<{ job_id: string }>('/api/v1/audio/concat', options as unknown as Record<string, unknown>);
+    return this.http.post<{ job_id: string }>('/api/v1/audio/concat', options);
   }
 }

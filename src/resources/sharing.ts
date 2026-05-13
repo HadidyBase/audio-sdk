@@ -19,11 +19,11 @@ export class SharingResource {
   }
 
   async create(options: ShareLinkCreateOptions): Promise<ShareLink> {
-    return this.http.post<ShareLink>('/api/v1/sharing', options as unknown as Record<string, unknown>);
+    return this.http.post<ShareLink>('/api/v1/sharing', options);
   }
 
   async update(id: string, options: ShareLinkUpdateOptions): Promise<ShareLink> {
-    return this.http.patch<ShareLink>(`/api/v1/sharing/${validateId(id)}`, options as unknown as Record<string, unknown>);
+    return this.http.patch<ShareLink>(`/api/v1/sharing/${validateId(id)}`, options);
   }
 
   async delete(id: string): Promise<void> {

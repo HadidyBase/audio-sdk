@@ -18,13 +18,15 @@ export class BillingResource {
   async history(params?: BillingHistoryParams): Promise<PaginatedResponse<BillingTransaction>> {
     return this.http.get<PaginatedResponse<BillingTransaction>>(
       '/api/v1/billing/history',
-      params as Record<string, unknown>,
+      params as Record<string, string | number | boolean | null | undefined>,
     );
   }
 
   async *historyAll(params?: Omit<BillingHistoryParams, 'page'>): AsyncGenerator<BillingTransaction> {
     yield* paginate<BillingTransaction>(
-      (p) => this.http.get<PaginatedResponse<BillingTransaction>>('/api/v1/billing/history', { ...params, ...p }),
+      this.http,
+      '/api/v1/billing/history',
+      params as Record<string, string | number | boolean | null | undefined>,
     );
   }
 

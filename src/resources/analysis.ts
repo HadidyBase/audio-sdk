@@ -7,7 +7,7 @@ export class AnalysisResource {
   constructor(private readonly http: HttpClient) {}
 
   async analyze(options: AnalyzeOptions): Promise<AudioAnalysisResult> {
-    const form = buildUploadFormData(options.file, { filename: options.filename });
+    const form = buildUploadFormData(options.file, 'file', { filename: options.filename });
     return this.http.post<AudioAnalysisResult>('/api/v1/audio/analyze', form);
   }
 }
