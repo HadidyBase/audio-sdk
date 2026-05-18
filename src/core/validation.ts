@@ -18,4 +18,10 @@ export function validateApiKey(apiKey: string): void {
   if (!apiKey || typeof apiKey !== 'string' || !apiKey.trim()) {
     throw new TypeError('apiKey must be a non-empty string');
   }
+  if (!API_KEY_PREFIX_PATTERN.test(apiKey.trim())) {
+    throw new TypeError(
+      'apiKey does not look like a valid Hadidy API key ' +
+      '(expected had_live_…, had_test_…, or had_dev_… — get yours from https://hadidy.com/dashboard/api-keys)',
+    );
+  }
 }

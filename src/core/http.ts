@@ -110,7 +110,9 @@ export class HttpClient {
           if (response.status === 429) {
             const retryAfter = response.headers.get('retry-after');
             if (retryAfter) {
-              await this.sleep(parseInt(retryAfter, 10) * 1000);
+              // Cap at 60 s — a hostile server could send Retry-After: 999999
+              const ms = Math.min(parseInt(retryAfter, 10), 60) * 1000;
+              await this.sleep(ms);
             }
           }
           lastError = err;

@@ -1,5 +1,6 @@
 import type { HttpClient } from '../core/http.js';
 import type { Codec, AudioFormat, CapabilitiesMatrix } from '../types/codecs.js';
+import { validateId } from '../core/validation.js';
 
 export class CodecsResource {
   constructor(private readonly http: HttpClient) {}
@@ -9,7 +10,7 @@ export class CodecsResource {
   }
 
   async getCodec(id: string): Promise<Codec> {
-    return this.http.get<Codec>(`/api/v1/codecs/${id}`);
+    return this.http.get<Codec>(`/api/v1/codecs/${validateId(id, 'codec id')}`);
   }
 
   async listFormats(): Promise<AudioFormat[]> {
@@ -17,7 +18,7 @@ export class CodecsResource {
   }
 
   async getFormat(id: string): Promise<AudioFormat> {
-    return this.http.get<AudioFormat>(`/api/v1/formats/${id}`);
+    return this.http.get<AudioFormat>(`/api/v1/formats/${validateId(id, 'format id')}`);
   }
 
   async capabilities(): Promise<CapabilitiesMatrix> {
