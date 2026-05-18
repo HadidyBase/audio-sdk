@@ -1,6 +1,6 @@
 {
   "name": "@hadidyapp/audio-sdk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Official JavaScript SDK for the Hadidy Audio Transcoding API — browser and Node.js 22+",
   "type": "module",
   "main": "./dist/index.cjs",
